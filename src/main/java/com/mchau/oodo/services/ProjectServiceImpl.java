@@ -1,5 +1,6 @@
 package com.mchau.oodo.services;
 
+import com.mchau.oodo.exceptions.ProjectIdException;
 import com.mchau.oodo.model.Project;
 import com.mchau.oodo.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ public class ProjectServiceImpl {
     }
 
     public Project saveOrUpdateProject(Project project){
-        return repository.save(project);
+        try {
+            return repository.save(project);
+        } catch (Exception ex){
+            throw new ProjectIdException("Project ID: "+project.getProjectIdentifier().toUpperCase()+" already taken");
+        }
     }
 }

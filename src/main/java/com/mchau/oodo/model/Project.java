@@ -29,7 +29,7 @@ public class Project {
     private String projectName;
     @NotBlank(message = "Identifier must be provided")
     @Size(min = 4, max = 5, message = "Identifier must be 4 upp to 5 characters")
-    @Column(updatable = false, unique = true,)
+    @Column(updatable = false, unique = true)
     private String projectIdentifier;
     @NotBlank(message = "Description must be provided")
     private String description;
