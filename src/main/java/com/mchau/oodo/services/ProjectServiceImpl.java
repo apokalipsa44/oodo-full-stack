@@ -38,4 +38,9 @@ public class ProjectServiceImpl {
     public Iterable<Project> findAll(){
         return repository.findAll();
     }
+
+    public void deleteProjectByIdentifier(String projectIdentifier){
+        Project project=findProjectByIdentifier(projectIdentifier);
+        repository.delete(project);
+    }
 }
