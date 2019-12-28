@@ -51,7 +51,5 @@ public class ProjectController {
         return new ResponseEntity<String>("Project "+projectId+" was deleted.", HttpStatus.OK);
     }
 
-    public void test(){
-        System.out.println("ssij");
-    }
+  
 }
