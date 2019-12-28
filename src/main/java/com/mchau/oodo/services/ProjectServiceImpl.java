@@ -7,6 +7,8 @@ import com.mchau.oodo.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
+
 @Service
 public class ProjectServiceImpl {
     private ProjectRepository repository;
@@ -31,5 +33,9 @@ public class ProjectServiceImpl {
             throw new ProjectNotFundException("Project ID: "+projectIdentifier.toUpperCase()+" not found");
         }
         return project;
+    }
+
+    public Iterable<Project> findAll(){
+        return repository.findAll();
     }
 }
