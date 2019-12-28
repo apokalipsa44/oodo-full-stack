@@ -7,8 +7,6 @@ import com.mchau.oodo.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-
 @Service
 public class ProjectServiceImpl {
     private ProjectRepository repository;
