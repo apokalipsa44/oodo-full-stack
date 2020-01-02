@@ -25,7 +25,7 @@ const {projects}=this.props.project
                             <br/>
                             <hr/>
                             {projects.map(project=>(
-                            <ProjectItem project={project}/>
+                            <ProjectItem key={project.id} project={project}/>
 
                             ))
 
