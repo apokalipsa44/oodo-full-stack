@@ -37,16 +37,16 @@ class UpdateProject extends Component {
 
     }
 
-
     componentDidMount() {
         const id = this.props.match.params.id
-        console.log(this.props)
         this.props.getProject(id, this.props.history)
 
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
+        if (nextProps.errors) {
+            this.setState({ errors: nextProps.errors });
+        }
         this.setState({
             id:nextProps.project.id,
             projectName: nextProps.project.projectName,
@@ -56,6 +56,8 @@ class UpdateProject extends Component {
             end_date: nextProps.project.end_date
         })
     }
+
+
 
     render() {
         const {errors} = this.state
@@ -75,7 +77,7 @@ class UpdateProject extends Component {
                                         })}
                                         placeholder="Project Name"
                                         name="projectName"
-                                        defaultValue={this.state.projectName}
+                                        value={this.state.projectName}
                                         onChange={this.onChange}
                                     />
                                     {errors.projectName && (
@@ -88,8 +90,9 @@ class UpdateProject extends Component {
                                         className={classnames("form-control form-control-lg", {"is-invalid": errors.projectIdentifier})}
                                         placeholder="Unique Project ID"
                                         name="projectIdentifier"
-                                        defaultValue={this.state.projectIdentifier}
+                                        value={this.state.projectIdentifier}
                                         onChange={this.onChange}
+                                        disabled
                                     />
                                     {errors.projectIdentifier && (
                                         <div className="invalid-feedback">{errors.projectIdentifier}</div>
@@ -100,7 +103,7 @@ class UpdateProject extends Component {
                       className={classnames("form-control form-control-lg", {"is-invalid": errors.description})}
                       placeholder="Project Description"
                       name="description"
-                      defaultValue={this.state.description}
+                      value={this.state.description}
                       onChange={this.onChange}
                   />
                                     {errors.description && (
@@ -113,7 +116,7 @@ class UpdateProject extends Component {
                                         type="date"
                                         className="form-control form-control-lg"
                                         name="start_date"
-                                        defaultValue={this.state.start_date}
+                                        value={this.state.start_date}
                                         onChange={this.onChange}
                                     />
                                 </div>
@@ -123,7 +126,7 @@ class UpdateProject extends Component {
                                         type="date"
                                         className="form-control form-control-lg"
                                         name="end_date"
-                                        defaultValue={this.state.end_date}
+                                        value={this.state.end_date}
                                         onChange={this.onChange}
                                     />
                                 </div>
@@ -144,11 +147,13 @@ class UpdateProject extends Component {
 UpdateProject.propTypes = {
     getProject: PropTypes.func.isRequired,
     createProject:PropTypes.func.isRequired,
-    project: PropTypes.object.isRequired
+    project: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    project: state.project.project
+    project: state.project.project,
+    errors: state.errors
 })
 
 export default connect(mapStateToProps, {getProject, createProject})(UpdateProject);
