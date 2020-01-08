@@ -41,10 +41,11 @@ export const getProject = (id, history) => async dispach => {
 }
 
 export const deleteProject = (id) => async dispach => {
+    if (window.confirm("Are You sure?")) {
         const resp = await axios.delete(`/api/project/${id}`)
         dispach({
             type: DELETE_PROJECT,
             payload: id
         })
-
+    }
 }
