@@ -22,7 +22,7 @@ public class Backlog {
     @OneToOne
     private Project project;
 
-//    @OneToMany
+    @OneToMany(mappedBy = "backlog", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ProjectTask> projectTasks;
 
 }

@@ -31,6 +31,9 @@ public class Project {
     private String projectIdentifier;
     @NotBlank(message = "Description must be provided")
     private String description;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Backlog backlog;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-mm-dd")
