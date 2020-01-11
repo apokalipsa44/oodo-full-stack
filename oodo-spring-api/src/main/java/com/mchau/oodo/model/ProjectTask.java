@@ -58,4 +58,20 @@ public class ProjectTask {
         this.updatedAt = LocalDateTime.now();
     }
 
+    @Override
+    public String toString() {
+        return "ProjectTask{" +
+                "id=" + id +
+                ", projectSequence='" + projectSequence + '\'' +
+                ", projectSummary='" + projectSummary + '\'' +
+                ", acceptanceCriteria='" + acceptanceCriteria + '\'' +
+                ", status='" + status + '\'' +
+                ", priority=" + priority +
+                ", projectIdentifier='" + projectIdentifier + '\'' +
+                ", backlog=" + backlog +
+                ", dueDate=" + dueDate +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
