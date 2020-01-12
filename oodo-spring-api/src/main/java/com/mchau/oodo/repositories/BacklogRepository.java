@@ -4,4 +4,5 @@ import com.mchau.oodo.model.Backlog;
 import org.springframework.data.repository.CrudRepository;
 
 public interface BacklogRepository extends CrudRepository<Backlog, Long> {
+    Backlog findByProjectIdentifier(String projectIdentifier);
 }

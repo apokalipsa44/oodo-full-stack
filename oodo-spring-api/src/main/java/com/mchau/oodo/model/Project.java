@@ -8,6 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.repository.cdi.Eager;
 
 
@@ -40,27 +42,27 @@ public class Project {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-mm-dd")
     private LocalDateTime dateStart;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-mm-dd")
     private LocalDateTime dateEnd;
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+
     @JsonFormat(pattern = "yyyy-mm-dd")
     @Column(updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-mm-dd")
+
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    void onCreate(){
-        this.createdAt=LocalDateTime.now();
-    }
-
-    @PreUpdate
-    void onUpdate(){
-        this.updatedAt=LocalDateTime.now();
-    }
+//    @PrePersist
+//    void onCreate(){
+//        this.createdAt=LocalDateTime.now();
+//    }
+//
+//    @PreUpdate
+//    void onUpdate(){
+//        this.updatedAt=LocalDateTime.now();
+//    }
 }

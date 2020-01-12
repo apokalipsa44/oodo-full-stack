@@ -23,18 +23,23 @@ public class ProjectServiceImpl {
 
 
     public Project saveOrUpdateProject(Project project){
-        project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+        String projectIdentifier = project.getProjectIdentifier().toUpperCase();
+        project.setProjectIdentifier(projectIdentifier);
         if(project.getId()==null){
             Backlog backlog=new Backlog();
             backlog.setProject(project);
             project.setBacklog(backlog);
-            backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            backlog.setProjectIdentifier(projectIdentifier);
 //            backlogRepository.save(backlog); <--ma być bez tego, zapisuje pomimo to.
+        }
+
+        if (project.getId()!=null){
+            project.setBacklog(backlogRepository.findByProjectIdentifier(projectIdentifier));
         }
         try {
             return projectRepository.save(project);
         } catch (Exception ex){
-            throw new ProjectIdException("Project ID: "+project.getProjectIdentifier().toUpperCase()+" already taken");
+            throw new ProjectIdException("Project ID: "+ projectIdentifier +" already taken");
         }
     }
 
