@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,6 @@ public class Backlog {
     private Project project;
 
     @OneToMany(mappedBy = "backlog", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<ProjectTask> projectTasks;
+    private List<ProjectTask> projectTasks =new ArrayList<>();
 
 }
