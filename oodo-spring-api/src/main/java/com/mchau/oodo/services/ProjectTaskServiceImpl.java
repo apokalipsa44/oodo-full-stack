@@ -19,5 +19,20 @@ public class ProjectTaskServiceImpl {
         this.projectTaskRepository = projectTaskRepository;
     }
 
+public ProjectTask addProjectTask(ProjectTask projectTask, String projectIdentifier){
+        projectTask.setBacklog(backlogRepository.findByProjectIdentifier(projectIdentifier.toUpperCase()));
+        Integer backlogSequence=projectTask.getBacklog().getPrTaskSequence();
+        backlogSequence++;
+        projectTask.getBacklog().setPrTaskSequence(backlogSequence);
+        projectTask.setProjectSequence(projectIdentifier.toUpperCase()+"-"+backlogSequence);
+        projectTask.setProjectIdentifier(projectIdentifier.toUpperCase());
+        if (projectTask.getPriority()==null||projectTask.getPriority()==0){
+            projectTask.setPriority(3);
+        }
+        if (projectTask.getStatus()==null||projectTask.getStatus()==""){
+            projectTask.setStatus("TO_DO");
+        }
 
+        return projectTaskRepository.save(projectTask);
+}
 }
