@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -38,4 +39,9 @@ public class BacklogController {
 
     }
 
+    @GetMapping("/{backlog_id}")
+    public Iterable<ProjectTask> getAllTaskByBacklogId(@PathVariable String backlog_id){
+        System.out.println("ssij");
+        return projectTaskService.getAllSortedTaskByBacklogId(backlog_id);
+    }
 }

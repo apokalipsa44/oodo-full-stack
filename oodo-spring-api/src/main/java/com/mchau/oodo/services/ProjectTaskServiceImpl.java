@@ -4,8 +4,10 @@ import com.mchau.oodo.model.ProjectTask;
 import com.mchau.oodo.repositories.BacklogRepository;
 import com.mchau.oodo.repositories.ProjectTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -35,4 +37,8 @@ public ProjectTask addProjectTask(ProjectTask projectTask, String projectIdentif
 
         return projectTaskRepository.save(projectTask);
 }
+
+    public Iterable<ProjectTask> getAllSortedTaskByBacklogId(String backlogId) {
+        return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlogId);
+    }
 }
