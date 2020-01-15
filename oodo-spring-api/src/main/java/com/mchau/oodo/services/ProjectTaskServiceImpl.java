@@ -1,6 +1,7 @@
 package com.mchau.oodo.services;
 
 import com.mchau.oodo.exceptions.BacklogNotFondException;
+import com.mchau.oodo.exceptions.ProjectTaskNotFoundException;
 import com.mchau.oodo.model.Backlog;
 import com.mchau.oodo.model.ProjectTask;
 import com.mchau.oodo.repositories.BacklogRepository;
@@ -51,7 +52,17 @@ public class ProjectTaskServiceImpl {
     }
 
     public ProjectTask findByProjectTaskSequence(String sequence, String backlogId){
-        return projectTaskRepository.findByProjectSequence(sequence);
+        if (getBacklog(backlogId) == null) {
+            throw new BacklogNotFondException(PROJECT_NOT_FOUND + backlogId);
+        }
+        ProjectTask projectTask=projectTaskRepository.findByProjectSequence(sequence);
+        if(projectTask==null){
+            throw new ProjectTaskNotFoundException("Project task not found. Task ID: "+sequence);
+        }
+        if (!projectTask.getProjectIdentifier().equalsIgnoreCase(backlogId)){
+            throw  new ProjectTaskNotFoundException("Wrong project task  Id or project Id.");
+        }
+        return projectTask;
     }
 
     private Backlog getBacklog(String projectIdentifier) {
