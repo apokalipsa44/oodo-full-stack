@@ -6,14 +6,13 @@ import com.mchau.oodo.model.ProjectTask;
 import com.mchau.oodo.repositories.BacklogRepository;
 import com.mchau.oodo.repositories.ProjectTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
 public class ProjectTaskServiceImpl {
+    public static final String PROJECT_NOT_FOUND = "Backlog for project not found. Project ID: ";
+
     private BacklogRepository backlogRepository;
     private ProjectTaskRepository projectTaskRepository;
 
@@ -23,35 +22,40 @@ public class ProjectTaskServiceImpl {
         this.projectTaskRepository = projectTaskRepository;
     }
 
-public ProjectTask addProjectTask(ProjectTask projectTask, String projectIdentifier){
-    Backlog backlog = getBacklog(projectIdentifier);
-    if(backlog==null){
-        throw new BacklogNotFondException("Backlog for project not found "+projectIdentifier);
-    }
-    projectTask.setBacklog(backlog);
-        Integer backlogSequence=projectTask.getBacklog().getPrTaskSequence();
+    public ProjectTask addProjectTask(ProjectTask projectTask, String projectIdentifier) {
+        Backlog backlog = getBacklog(projectIdentifier);
+        if (backlog == null) {
+            throw new BacklogNotFondException(PROJECT_NOT_FOUND + projectIdentifier);
+        }
+        projectTask.setBacklog(backlog);
+        Integer backlogSequence = projectTask.getBacklog().getPrTaskSequence();
         backlogSequence++;
         projectTask.getBacklog().setPrTaskSequence(backlogSequence);
-        projectTask.setProjectSequence(projectIdentifier.toUpperCase()+"-"+backlogSequence);
+        projectTask.setProjectSequence(projectIdentifier.toUpperCase() + "-" + backlogSequence);
         projectTask.setProjectIdentifier(projectIdentifier.toUpperCase());
-        if (projectTask.getPriority()==null||projectTask.getPriority()==0){
+        if (projectTask.getPriority() == null || projectTask.getPriority() == 0) {
             projectTask.setPriority(3);
         }
-        if (projectTask.getStatus()==null||projectTask.getStatus()==""){
+        if (projectTask.getStatus() == null || projectTask.getStatus() == "") {
             projectTask.setStatus("TO_DO");
         }
 
         return projectTaskRepository.save(projectTask);
-}
+    }
 
     public Iterable<ProjectTask> getAllSortedTaskByBacklogId(String projectIdentifier) {
-        if(getBacklog(projectIdentifier)==null){
-            throw new BacklogNotFondException("Backlog for project not found "+projectIdentifier);
+        if (getBacklog(projectIdentifier) == null) {
+            throw new BacklogNotFondException(PROJECT_NOT_FOUND + projectIdentifier);
         }
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectIdentifier);
+    }
+
+    public ProjectTask findByProjectTaskSequence(String sequence, String backlogId){
+        return projectTaskRepository.findByProjectSequence(sequence);
     }
 
     private Backlog getBacklog(String projectIdentifier) {
         return backlogRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
     }
+
 }
