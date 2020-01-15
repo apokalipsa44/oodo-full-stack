@@ -9,6 +9,8 @@ import com.mchau.oodo.repositories.ProjectTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.PreparedStatement;
+
 
 @Service
 public class ProjectTaskServiceImpl {
@@ -51,18 +53,24 @@ public class ProjectTaskServiceImpl {
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectIdentifier);
     }
 
-    public ProjectTask findByProjectTaskSequence(String sequence, String backlogId){
+    public ProjectTask findByProjectTaskSequence(String sequence, String backlogId) {
         if (getBacklog(backlogId) == null) {
             throw new BacklogNotFondException(PROJECT_NOT_FOUND + backlogId);
         }
-        ProjectTask projectTask=projectTaskRepository.findByProjectSequence(sequence);
-        if(projectTask==null){
-            throw new ProjectTaskNotFoundException("Project task not found. Task ID: "+sequence);
+        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(sequence);
+        if (projectTask == null) {
+            throw new ProjectTaskNotFoundException("Project task not found. Task ID: " + sequence);
         }
-        if (!projectTask.getProjectIdentifier().equalsIgnoreCase(backlogId)){
-            throw  new ProjectTaskNotFoundException("Wrong project task  Id or project Id.");
+        if (!projectTask.getProjectIdentifier().equalsIgnoreCase(backlogId)) {
+            throw new ProjectTaskNotFoundException("Wrong project task  Id or project Id.");
         }
         return projectTask;
+    }
+
+    public ProjectTask updateProjectTask(ProjectTask updatedTask, String backlogId, String sequence) {
+        ProjectTask projectTask = findByProjectTaskSequence(sequence, backlogId);
+        projectTask = updatedTask;
+        return projectTaskRepository.save(updatedTask);
     }
 
     private Backlog getBacklog(String projectIdentifier) {

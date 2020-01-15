@@ -40,13 +40,25 @@ public class BacklogController {
     }
 
     @GetMapping("/{backlog_id}")
-    public Iterable<ProjectTask> getAllTaskByBacklogId(@PathVariable String backlog_id){
+    public Iterable<ProjectTask> getAllTaskByBacklogId(@PathVariable String backlog_id) {
         return projectTaskService.getAllSortedTaskByBacklogId(backlog_id);
     }
 
     @GetMapping("/{backlog_id}/{pt_id}")
-    public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id){
-        ProjectTask projectTask=projectTaskService.findByProjectTaskSequence(pt_id, backlog_id);
+    public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id) {
+        ProjectTask projectTask = projectTaskService.findByProjectTaskSequence(pt_id, backlog_id);
+        return new ResponseEntity<ProjectTask>(projectTask, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> updateProjectTask(@RequestBody @Valid ProjectTask updatedTask,
+                                               BindingResult bindingResult,
+                                               @PathVariable String backlog_id,
+                                               @PathVariable String pt_id) {
+        ResponseEntity<?> errorMap = errorMsgService.getErrorMessages(bindingResult);
+        if (errorMap != null) return errorMap;
+
+        ProjectTask projectTask = projectTaskService.updateProjectTask(updatedTask, backlog_id, pt_id);
         return new ResponseEntity<ProjectTask>(projectTask, HttpStatus.OK);
     }
 }
