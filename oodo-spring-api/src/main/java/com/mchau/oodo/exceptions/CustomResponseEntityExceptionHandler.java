@@ -24,4 +24,10 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ProjectNotFoundExceptionResponse exceptionResponse=new ProjectNotFoundExceptionResponse(ex.getMessage());
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleBacklogNotFoundException(BacklogNotFondException ex, WebRequest request){
+        BacklogNotFoundExceptionResponse exceptionResponse=new BacklogNotFoundExceptionResponse(ex.getMessage());
+        return  new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
 }

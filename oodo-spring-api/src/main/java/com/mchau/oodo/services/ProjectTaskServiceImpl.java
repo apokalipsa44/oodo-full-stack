@@ -1,5 +1,7 @@
 package com.mchau.oodo.services;
 
+import com.mchau.oodo.exceptions.BacklogNotFondException;
+import com.mchau.oodo.model.Backlog;
 import com.mchau.oodo.model.ProjectTask;
 import com.mchau.oodo.repositories.BacklogRepository;
 import com.mchau.oodo.repositories.ProjectTaskRepository;
@@ -22,7 +24,11 @@ public class ProjectTaskServiceImpl {
     }
 
 public ProjectTask addProjectTask(ProjectTask projectTask, String projectIdentifier){
-        projectTask.setBacklog(backlogRepository.findByProjectIdentifier(projectIdentifier.toUpperCase()));
+    Backlog backlog = getBacklog(projectIdentifier);
+    if(backlog==null){
+        throw new BacklogNotFondException("Backlog for project not found "+projectIdentifier);
+    }
+    projectTask.setBacklog(backlog);
         Integer backlogSequence=projectTask.getBacklog().getPrTaskSequence();
         backlogSequence++;
         projectTask.getBacklog().setPrTaskSequence(backlogSequence);
@@ -38,7 +44,14 @@ public ProjectTask addProjectTask(ProjectTask projectTask, String projectIdentif
         return projectTaskRepository.save(projectTask);
 }
 
-    public Iterable<ProjectTask> getAllSortedTaskByBacklogId(String backlogId) {
-        return projectTaskRepository.findByProjectIdentifierOrderByPriority(backlogId);
+    public Iterable<ProjectTask> getAllSortedTaskByBacklogId(String projectIdentifier) {
+        if(getBacklog(projectIdentifier)==null){
+            throw new BacklogNotFondException("Backlog for project not found "+projectIdentifier);
+        }
+        return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectIdentifier);
+    }
+
+    private Backlog getBacklog(String projectIdentifier) {
+        return backlogRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
     }
 }
