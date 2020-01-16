@@ -73,6 +73,10 @@ public class ProjectTaskServiceImpl {
         return projectTaskRepository.save(updatedTask);
     }
 
+    public void deleteProjectTask(String backlogId, String sequence){
+        projectTaskRepository.delete(findByProjectTaskSequence(sequence, backlogId));
+    }
+
     private Backlog getBacklog(String projectIdentifier) {
         return backlogRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
     }
