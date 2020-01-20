@@ -1,8 +1,19 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-
+import PropTypes from "prop-types"
+import {connect} from "react-redux"
+import classnames from "classnames";
+import {addProjectTask} from "../../../redux_actions/projectTaskActions";
 
 class AddProjectTaskForm extends Component {
+    state = {
+        summary: "",
+        acceptanceCriteria: "",
+        priority: 0,
+        status:"",
+        dueDate: "",
+        errors: {}
+    }
 
     render() {
 
@@ -79,5 +90,14 @@ class AddProjectTaskForm extends Component {
     }
 }
 
-export default AddProjectTaskForm;
+AddProjectTaskForm.propTypes = {
+    addProjectTask: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+    errors: state.errors
+})
+
+export default connect(mapStateToProps, addProjectTask)(AddProjectTaskForm);
 

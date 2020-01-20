@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {createProject} from "../../redux_actions/projectActions"
 import classnames from "classnames";
 
-class AddProject extends React.Component {
+class AddProject extends Component {
     state = {
         projectName: "",
         projectIdentifier: "",
