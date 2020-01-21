@@ -52,7 +52,7 @@ class AddProjectTaskForm extends Component {
     render() {
 
         const {id} = this.props.match.params;
-
+        const {errors} = this.state
         return (
             <div className="add-PBI">
                 <div className="container">
@@ -67,21 +67,26 @@ class AddProjectTaskForm extends Component {
                                 <div className="form-group">
                                     <input
                                         type="text"
-                                        className="form-control form-control-lg"
+                                        // className={classnames("form-control form-control-lg", {"is-invalid":errors.projectIdentifier})}
+                                        className={classnames("form-control form-control-lg", {"is-invalid": errors.projectSummary})}
                                         name="projectSummary"
                                         placeholder="Project Task summary"
                                         value={this.state.projectSummary}
                                         onChange={this.onChange}
                                     />
+                                    {/*error msg*/}
+                                    {errors.projectSummary && (
+                                        <div className="invalid-feedback">{errors.projectSummary}</div>
+                                    )}
                                 </div>
                                 <div className="form-group">
-                  <textarea
-                      className="form-control form-control-lg"
-                      placeholder="Acceptance Criteria"
-                      name="acceptanceCriteria"
-                      value={this.state.acceptanceCriteria}
-                      onChange={this.onChange}
-                  />
+                                            <textarea
+                                                className="form-control form-control-lg"
+                                                placeholder="Acceptance Criteria"
+                                                name="acceptanceCriteria"
+                                                value={this.state.acceptanceCriteria}
+                                                onChange={this.onChange}
+                                            />
                                 </div>
                                 <h6>Due Date</h6>
                                 <div className="form-group">
