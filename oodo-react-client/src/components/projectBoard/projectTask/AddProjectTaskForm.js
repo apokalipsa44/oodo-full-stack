@@ -22,7 +22,7 @@ class AddProjectTaskForm extends Component {
 
     UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.errors) {
-            // console.log(nextProps)
+            console.log(nextProps.errors)
             this.setState({errors: nextProps.errors});
         }
     }
