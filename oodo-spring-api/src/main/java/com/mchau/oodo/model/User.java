@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User  extends UserDetails {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
