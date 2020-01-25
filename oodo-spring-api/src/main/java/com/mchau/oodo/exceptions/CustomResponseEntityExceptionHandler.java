@@ -35,4 +35,11 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ProjectTaskNotFoundExceptionResponse exceptionResponse=new ProjectTaskNotFoundExceptionResponse(ex.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUserNameTakenException(UserNameTakenException ex, WebRequest request){
+        UserNameTakenExceptionResponse exceptionResponse=new UserNameTakenExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }
