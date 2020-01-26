@@ -21,7 +21,7 @@ public class UserServiceImpl {
     public User saveUser(User user) {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setUsername(user.getUsername());
+//            user.setUsername(user.getUsername());
             return repository.save(user);
         } catch (Exception e) {
             throw new UserNameTakenException(user.getUsername() + " This username is already taken");
