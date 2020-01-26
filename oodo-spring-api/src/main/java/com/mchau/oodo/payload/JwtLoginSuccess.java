@@ -10,13 +10,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JwtLoginSuccess {
     private Boolean isSucceeded;
-    private String tooken;
+    private String token;
 
     @Override
     public String toString() {
         return "JwtLoginSuccess{" +
                 "isSucceeded=" + isSucceeded +
-                ", tooken='" + tooken + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

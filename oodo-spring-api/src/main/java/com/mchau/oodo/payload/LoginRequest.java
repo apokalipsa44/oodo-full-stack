@@ -10,8 +10,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class LoginRequest {
 
-    @NotBlank(message = "username must be provided")
-    private String userName;
-    @NotBlank(message = "password must be provided")
+    @NotBlank(message = "LoginRequest failed, username must be provided")
+    private String username;
+    @NotBlank(message = "LoginRequest failed, password must be provided")
     private String password;
 }
