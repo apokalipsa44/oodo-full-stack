@@ -21,7 +21,7 @@ public class UserServiceImpl {
     public User saveUser(User user) {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-//            user.setUsername(user.getUsername());
+            user.setConfirmPassword(""); // clears typed password so its not visible in a returned json
             return repository.save(user);
         } catch (Exception e) {
             throw new UserNameTakenException(user.getUsername() + " This username is already taken");
