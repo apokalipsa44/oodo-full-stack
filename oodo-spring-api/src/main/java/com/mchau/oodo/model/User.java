@@ -38,6 +38,7 @@ public class User implements UserDetails {
     private Date createdAt;
 
     private Date updatedAt;
+
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private List<Project> projectList = new ArrayList<>();
 

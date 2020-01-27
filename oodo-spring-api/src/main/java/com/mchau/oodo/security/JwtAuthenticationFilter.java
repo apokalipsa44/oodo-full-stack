@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwtBearer = httpServletRequest.getHeader(TOKEN_HEADER);
-            System.out.println(jwtBearer);
+//            System.out.println(jwtBearer);
             String jwt = "";
             // extract token - removes the prefix
             if (StringUtils.hasText(jwtBearer) && jwtBearer.startsWith(TOKEN_PREFIX)) {

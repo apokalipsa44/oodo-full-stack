@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/project")
@@ -27,11 +28,11 @@ public class ProjectController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult bindingResult) {
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult bindingResult, Principal principal) {
         ResponseEntity<?> errorMap = errorMsgService.getErrorMessages(bindingResult);
         if (errorMap != null) return errorMap;
 
-        projectService.saveOrUpdateProject(project);
+        projectService.saveOrUpdateProject(project, principal.getName());
         return new ResponseEntity<Project>(project, HttpStatus.CREATED);
     }
 
@@ -42,8 +43,8 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public Iterable<Project> findAllProjects(){
-        return projectService.findAll();
+    public Iterable<Project> findAllProjects(Principal principal){
+        return projectService.findAll(principal.getName());
     }
 
     @DeleteMapping("/{projectId}")
