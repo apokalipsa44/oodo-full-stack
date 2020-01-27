@@ -58,7 +58,15 @@ public class Project {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-//    @PrePersist
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
+
+    private String projectLeader;
+
+
+    //    @PrePersist
 //    void onCreate(){
 //        this.createdAt=LocalDateTime.now();
 //    }
