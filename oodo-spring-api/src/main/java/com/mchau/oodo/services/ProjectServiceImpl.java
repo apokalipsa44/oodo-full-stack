@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProjectServiceImpl {
@@ -49,8 +51,17 @@ public class ProjectServiceImpl {
         }
     }
 
-    public Project findProjectByIdentifier(String projectIdentifier) {
-        Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+    public Project findProjectByIdentifier(String projectIdentifier, String username) {
+        Iterable<Project> projects = findAll(username);
+        List<Project> projectList = new ArrayList<>();
+        projects.forEach(project -> {
+            projectList.add(project);
+        });
+
+        Project project = projectList.stream().filter(p -> (p.getProjectIdentifier().equalsIgnoreCase(projectIdentifier)))
+                .findFirst().orElse(null);
+
+//        Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
         if (project == null) {
             throw new ProjectNotFundException("Project ID: " + projectIdentifier.toUpperCase() + " not found");
         }
@@ -59,15 +70,15 @@ public class ProjectServiceImpl {
 
     public Iterable<Project> findAll(String username) {
         try {
-            User user=userRepository.findByUsername(username);
+            User user = userRepository.findByUsername(username);
             return projectRepository.findAllByUser(user);
-        }catch (Exception ex){
-            throw new ProjectNotFundException("can't find projects for user "+username);
+        } catch (Exception ex) {
+            throw new ProjectNotFundException("can't find projects for user " + username);
         }
     }
 
-    public void deleteProjectByIdentifier(String projectIdentifier) {
-        Project project = findProjectByIdentifier(projectIdentifier);
+    public void deleteProjectByIdentifier(String projectIdentifier, String username) {
+        Project project = findProjectByIdentifier(projectIdentifier, username);
         projectRepository.delete(project);
     }
 
