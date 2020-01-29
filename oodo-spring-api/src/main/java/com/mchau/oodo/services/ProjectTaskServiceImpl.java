@@ -10,23 +10,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
-
 @Service
 public class ProjectTaskServiceImpl {
     public static final String PROJECT_NOT_FOUND = "Backlog for project not found. Project ID: ";
 
     private BacklogRepository backlogRepository;
     private ProjectTaskRepository projectTaskRepository;
+    private ProjectServiceImpl projectService;
 
     @Autowired
-    public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository) {
+    public ProjectTaskServiceImpl(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository,
+                                  ProjectServiceImpl projectService) {
         this.backlogRepository = backlogRepository;
         this.projectTaskRepository = projectTaskRepository;
+        this.projectService = projectService;
     }
 
-    public ProjectTask addProjectTask(ProjectTask projectTask, String projectIdentifier) {
-        Backlog backlog = getBacklog(projectIdentifier);
+    public ProjectTask addProjectTask(ProjectTask projectTask, String projectIdentifier, String username) {
+        Backlog backlog = projectService.findProjectByIdentifier(projectIdentifier, username).getBacklog();
         if (backlog == null) {
             throw new BacklogNotFondException(PROJECT_NOT_FOUND + projectIdentifier);
         }
@@ -73,7 +74,7 @@ public class ProjectTaskServiceImpl {
         return projectTaskRepository.save(updatedTask);
     }
 
-    public void deleteProjectTask(String backlogId, String sequence){
+    public void deleteProjectTask(String backlogId, String sequence) {
         projectTaskRepository.delete(findByProjectTaskSequence(sequence, backlogId));
     }
 
