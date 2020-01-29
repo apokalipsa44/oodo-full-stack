@@ -29,25 +29,43 @@ public class ProjectServiceImpl {
     }
 
     public Project saveOrUpdateProject(Project project, String username) {
+
         try {
             User user = userRepository.findByUsername(username);
             project.setUser(user);
             project.setProjectLeader(user.getUsername().toUpperCase());
             String projectIdentifier = project.getProjectIdentifier().toUpperCase();
             project.setProjectIdentifier(projectIdentifier);
-            if (project.getId() == null) {
+            // to update
+            try {
+                if (project.getId() != null) {
+                    Project projectToUpdate = projectRepository.findByProjectIdentifier(projectIdentifier);
+                    projectToUpdate.setId(project.getId());
+                    if (projectToUpdate.getId() != null && !projectToUpdate.getProjectLeader().equalsIgnoreCase(username)) {
+                        throw new ProjectNotFundException("This is not Your project");
+                    }
+                    if (projectToUpdate == null) {
+                        throw new ProjectNotFundException("Wrong id given, project not found on db.");
+                    }
+                }
+            } catch (Exception ex) {
+                throw new ProjectNotFundException(ex.getMessage());
+            }
+
+            //to save new proj
+            if (project.getId() == null && project.getProjectLeader().equalsIgnoreCase(username)) {
                 Backlog backlog = new Backlog();
                 backlog.setProject(project);
                 project.setBacklog(backlog);
                 backlog.setProjectIdentifier(projectIdentifier);
 //            backlogRepository.save(backlog); <--ma być bez tego, zapisuje pomimo to.
             }
-            if (project.getId() != null) {
+            if (project.getId() != null && project.getProjectLeader().equalsIgnoreCase(username)) {
                 project.setBacklog(backlogRepository.findByProjectIdentifier(projectIdentifier));
             }
             return projectRepository.save(project);
         } catch (Exception ex) {
-            throw new ProjectIdException("Project ID: " + project.getProjectIdentifier().toUpperCase() + " already taken");
+            throw new ProjectIdException("Project ID: " + project.getProjectIdentifier().toUpperCase() + " already taken."+ex.getMessage());
         }
     }
 
