@@ -87,11 +87,13 @@ public class ProjectServiceImpl {
     }
 
     public Iterable<Project> findAll(String username) {
+        Iterable<Project> projects;
         try {
-            return projectRepository.findAllByProjectLeader(username.toUpperCase());
+            projects = projectRepository.findAllByProjectLeader(username.toUpperCase());
         } catch (Exception ex) {
             throw new ProjectNotFundException("can't find projects for user " + username);
         }
+        return projects;
     }
 
     public void deleteProjectByIdentifier(String projectIdentifier, String username) {

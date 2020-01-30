@@ -50,7 +50,7 @@ public class ProjectTaskServiceImpl {
 
     public Iterable<ProjectTask> getAllSortedTaskByBacklogId(String projectIdentifier, String username) {
         try {
-            projectService.findAll(username);
+            projectService.findProjectByIdentifier(projectIdentifier, username);
         } catch (Exception ex) {
             throw new ProjectNotFundException(ex.getMessage());
         }
