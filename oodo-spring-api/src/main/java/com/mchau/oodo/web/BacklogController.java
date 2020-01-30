@@ -41,8 +41,8 @@ public class BacklogController {
     }
 
     @GetMapping("/{backlog_id}")
-    public Iterable<ProjectTask> getAllTaskByBacklogId(@PathVariable String backlog_id) {
-        return projectTaskService.getAllSortedTaskByBacklogId(backlog_id);
+    public Iterable<ProjectTask> getAllTaskByBacklogId(@PathVariable String backlog_id, Principal principal) {
+        return projectTaskService.getAllSortedTaskByBacklogId(backlog_id, principal.getName());
     }
 
     @GetMapping("/{backlog_id}/{pt_id}")

@@ -88,8 +88,7 @@ public class ProjectServiceImpl {
 
     public Iterable<Project> findAll(String username) {
         try {
-            User user = userRepository.findByUsername(username);
-            return projectRepository.findAllByUser(user);
+            return projectRepository.findAllByProjectLeader(username.toUpperCase());
         } catch (Exception ex) {
             throw new ProjectNotFundException("can't find projects for user " + username);
         }

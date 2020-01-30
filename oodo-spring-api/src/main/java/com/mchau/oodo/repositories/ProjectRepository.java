@@ -9,5 +9,5 @@ import java.security.Principal;
 public interface ProjectRepository extends CrudRepository<Project, Long> {
     Project findByProjectIdentifier(String projectIdentifier);
 
-    Iterable<Project> findAllByUser(User user);
+    Iterable<Project> findAllByProjectLeader(String username);
 }
