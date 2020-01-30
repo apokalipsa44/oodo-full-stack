@@ -10,6 +10,9 @@ import store from "./store"
 import UpdateProject from "./components/project/UpdateProject";
 import ProjectBoard from "./components/projectBoard/ProjectBoard";
 import AddProjectTaskForm from "./components/projectBoard/projectTask/AddProjectTaskForm";
+import Landing from "./components/layout/Landing";
+import Login from "./components/userManagment/Login";
+import Register from "./components/userManagment/Register";
 
 function App() {
     return (
@@ -22,6 +25,9 @@ function App() {
                 <Route path="/updateProject/:id" component={UpdateProject}/>
                 <Route path="/projectBoard/:id" component={ProjectBoard}/>
                 <Route path="/addProjectTask/:id" component={AddProjectTaskForm}/>
+                <Route path="/landing" component={Landing}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/register" component={Register}/>
             </div>
         </Router>
         </Provider>
