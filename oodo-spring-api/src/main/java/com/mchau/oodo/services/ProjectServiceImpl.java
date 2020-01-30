@@ -65,7 +65,7 @@ public class ProjectServiceImpl {
             }
             return projectRepository.save(project);
         } catch (Exception ex) {
-            throw new ProjectIdException("Project ID: " + project.getProjectIdentifier().toUpperCase() + " already taken."+ex.getMessage());
+            throw new ProjectIdException("Project ID: " + project.getProjectIdentifier().toUpperCase() + " already taken." + ex.getMessage());
         }
     }
 
@@ -87,10 +87,9 @@ public class ProjectServiceImpl {
     }
 
     public Iterable<Project> findAll(String username) {
-        Iterable<Project> projects;
-        try {
-            projects = projectRepository.findAllByProjectLeader(username.toUpperCase());
-        } catch (Exception ex) {
+
+        Iterable<Project> projects = projectRepository.findAllByProjectLeader(username.toUpperCase());
+        if (!projects.iterator().hasNext()) {
             throw new ProjectNotFundException("can't find projects for user " + username);
         }
         return projects;
