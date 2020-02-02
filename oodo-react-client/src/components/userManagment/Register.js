@@ -13,6 +13,13 @@ class Register extends Component {
 
     }
 
+    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.errors) {
+            // console.log(nextProps)
+            this.setState({ errors: nextProps.errors });
+        }
+    }
+
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -33,6 +40,7 @@ class Register extends Component {
 
 
     render() {
+        const {errors}=this.state
         return (
             <div className="register">
                 <div className="container">
@@ -45,35 +53,51 @@ class Register extends Component {
                                 <div className="form-group">
                                     <input
                                         type="email"
-                                        className="form-control form-control-lg"
+
+                                        className={classnames("form-control form-control-lg", {
+                                            "is-invalid": errors.username
+                                        })}
                                         placeholder="Email Address"
                                         name="username"
                                         value={this.state.username}
                                         required
                                         onChange={this.onChange}
                                     />
+                                    {errors.username &&(
+                                        <div className="invalid-feedback">{errors.username}</div>
+                                    )}
                                 </div>
                                 <div className="form-group">
                                     <input
                                         type="password"
-                                        className="form-control form-control-lg"
+                                        className={classnames("form-control form-control-lg", {
+                                            "is-invalid": errors.password
+                                        })}
                                         placeholder="Password"
                                         name="password"
                                         value={this.state.password}
                                         required
                                         onChange={this.onChange}
                                     />
+                                    {errors.password &&(
+                                        <div className="invalid-feedback">{errors.password}</div>
+                                    )}
                                 </div>
                                 <div className="form-group">
                                     <input
                                         type="password"
-                                        className="form-control form-control-lg"
+                                        className={classnames("form-control form-control-lg", {
+                                            "is-invalid": errors.confirmPassword
+                                        })}
                                         placeholder="Confirm Password"
                                         name="confirmPassword"
                                         value={this.state.confirmPassword}
                                         required
                                         onChange={this.onChange}
                                     />
+                                    {errors.confirmPassword &&(
+                                        <div className="invalid-feedback">{errors.confirmPassword}</div>
+                                    )}
                                 </div>
                                 <input type="submit" className="btn btn-info btn-block mt-4"/>
                             </form>
