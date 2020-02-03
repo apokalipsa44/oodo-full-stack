@@ -16,7 +16,7 @@ class Register extends Component {
     UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.errors) {
             // console.log(nextProps)
-            this.setState({ errors: nextProps.errors });
+            this.setState({errors: nextProps.errors});
         }
     }
 
@@ -40,7 +40,7 @@ class Register extends Component {
 
 
     render() {
-        const {errors}=this.state
+        const {errors} = this.state
         return (
             <div className="register">
                 <div className="container">
@@ -52,7 +52,7 @@ class Register extends Component {
 
                                 <div className="form-group">
                                     <input
-                                        type="email"
+                                        type="text"
 
                                         className={classnames("form-control form-control-lg", {
                                             "is-invalid": errors.username
@@ -63,7 +63,7 @@ class Register extends Component {
                                         required
                                         onChange={this.onChange}
                                     />
-                                    {errors.username &&(
+                                    {errors.username && (
                                         <div className="invalid-feedback">{errors.username}</div>
                                     )}
                                 </div>
@@ -79,7 +79,7 @@ class Register extends Component {
                                         required
                                         onChange={this.onChange}
                                     />
-                                    {errors.password &&(
+                                    {errors.password && (
                                         <div className="invalid-feedback">{errors.password}</div>
                                     )}
                                 </div>
@@ -95,7 +95,7 @@ class Register extends Component {
                                         required
                                         onChange={this.onChange}
                                     />
-                                    {errors.confirmPassword &&(
+                                    {errors.confirmPassword && (
                                         <div className="invalid-feedback">{errors.confirmPassword}</div>
                                     )}
                                 </div>
@@ -109,7 +109,7 @@ class Register extends Component {
     }
 }
 
-Register.prototypes = {
+Register.propTypes = {
     createNewUser: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 }
