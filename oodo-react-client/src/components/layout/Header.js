@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import classnames from "classnames"
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 import {logout} from "../../redux_actions/securityActions";
-import {wrapMapToPropsConstant} from "react-redux/lib/connect/wrapMapToProps";
 
 class Header extends Component {
     logout = () => {
@@ -70,7 +68,7 @@ class Header extends Component {
         } else {
             links = userIsNotLogged
         }
-        
+
         return (
 
             <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
