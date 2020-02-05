@@ -16,6 +16,7 @@ import Register from "./components/userManagment/Register";
 import setJwtToken from "./securityUtils/JwtTokenUtils"
 import jwtDecode from "jwt-decode"
 import {SET_CURRENT_USER} from "./redux_actions/types";
+import {logout} from "./redux_actions/securityActions";
 
 const token = localStorage.jwtToken
 
@@ -26,7 +27,14 @@ if(token){
         type: SET_CURRENT_USER,
         payload: decodedToken
     })
+
+    const currentTime=Date.now()/1000;
+    if(decodedToken.exp<currentTime){
+        store.dispatch(logout())
+        window.location.href="/login"
+    }
 }
+
 
 function App() {
 

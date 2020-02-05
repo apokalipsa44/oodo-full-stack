@@ -5,7 +5,7 @@ const setJwtToken = (token) => {
         axios.defaults.headers.common["Authorization"] = token
 
     } else {
-        delete axios.defaults.headers.common["Authorization"]
+        delete axios.defaults.headers.common["Authorization"]// if there is no token -> delete the header Authorization
     }
 }
 export default setJwtToken;
