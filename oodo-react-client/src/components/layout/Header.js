@@ -1,48 +1,105 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import classnames from "classnames"
+import PropTypes from "prop-types"
+import {logout} from "../../redux_actions/securityActions";
+import {wrapMapToPropsConstant} from "react-redux/lib/connect/wrapMapToProps";
+
+class Header extends Component {
+    logout = () => {
+        this.props.logout()
+        window.location.href = "/login"
+    }
+
+    render() {
+        const {user, validToken} = this.props.security;
+        let links;
 
 
-function Header(props) {
-    return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
-            <div className="container">
-                <Link className="navbar-brand" to="/dashboard">
-                    Personal Project Management Tool
-                </Link>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#mobile-nav"
-                >
-                    <span className="navbar-toggler-icon"/>
-                </button>
 
-                <div className="collapse navbar-collapse" id="mobile-nav">
-                    <ul className="navbar-nav mr-auto">
-                        <li className="nav-item">
-                            <a className="nav-link" href="/dashboard">
-                                Dashboard
-                            </a>
-                        </li>
-                    </ul>
+        const userIsLogged = (
+            <div className="collapse navbar-collapse" id="mobile-nav">
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/dashboard">
+                            Dashboard
+                        </Link>
+                    </li>
+                </ul>
 
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <Link className="nav-link " to="/register">
-                                Sign Up
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">
-                                Login
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+                <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/dashboard">
+                            <i className="fas fa-user-circle mr-1"/>
+                            {user.username}
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link
+                            className="nav-link"
+                            to="/logout"
+                            onClick={this.logout}
+                        >
+                            Logout
+                        </Link>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    );
+        )
+
+        const userIsNotLogged = (
+            <div className="collapse navbar-collapse" id="mobile-nav">
+                <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/register">
+                            Sign Up
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/login">
+                            Login
+                        </Link>
+                    </li>
+                </ul>
+            </div>
+        )
+
+        if (user && validToken) {
+            links = userIsLogged
+        } else {
+            links = userIsNotLogged
+        }
+        
+        return (
+
+            <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+                <div className="container">
+                    <Link className="navbar-brand" to="/">
+                        Personal Project Management Tool
+                    </Link>
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#mobile-nav"
+                    >
+                        <span className="navbar-toggler-icon"/>
+                    </button>
+                    {links}
+                </div>
+            </nav>
+        );
+    }
 }
 
-export default Header;
+Header.propTypes = {
+    logout: PropTypes.func.isRequired,
+    security: PropTypes.object.isRequired
+};
+
+const mapStateToProps = props => ({
+    security: props.security
+});
+
+export default connect(mapStateToProps, {logout})(Header);
