@@ -18,11 +18,12 @@ import jwtDecode from "jwt-decode"
 import {SET_CURRENT_USER} from "./redux_actions/types";
 import {logout} from "./redux_actions/securityActions";
 import SecuredRoute from "./securityUtils/SecuredRoute";
+import UpdateProjectTask from "./components/projectBoard/projectTask/UpdateProjectTask";
 
 
 const token = localStorage.jwtToken
 
-if(token){
+if (token) {
     setJwtToken(token)
     const decodedToken = jwtDecode(token)
     store.dispatch({
@@ -30,10 +31,10 @@ if(token){
         payload: decodedToken
     })
 
-    const currentTime=Date.now()/1000;
-    if(decodedToken.exp<currentTime){
+    const currentTime = Date.now() / 1000;
+    if (decodedToken.exp < currentTime) {
         store.dispatch(logout())
-        window.location.href="/landing"
+        window.location.href = "/landing"
     }
 }
 
@@ -47,11 +48,12 @@ function App() {
                 <div className="App">
                     <Header/>
                     <Switch>
-                    <SecuredRoute path="/dashboard" component={Dashboard}/>
-                    <SecuredRoute path="/addProject" component={AddProject}/>
-                    <SecuredRoute path="/updateProject/:id" component={UpdateProject}/>
-                    <SecuredRoute path="/projectBoard/:id" component={ProjectBoard}/>
-                    <SecuredRoute path="/addProjectTask/:id" component={AddProjectTaskForm}/>
+                        <SecuredRoute path="/dashboard" component={Dashboard}/>
+                        <SecuredRoute path="/addProject" component={AddProject}/>
+                        <SecuredRoute path="/updateProject/:id" component={UpdateProject}/>
+                        <SecuredRoute path="/projectBoard/:id" component={ProjectBoard}/>
+                        <SecuredRoute path="/addProjectTask/:id" component={AddProjectTaskForm}/>
+                        <SecuredRoute exact path="/updateProjectTask/:backlog_id/:pt_id" component={UpdateProjectTask}/>
                     </Switch>
                     <Route path="/landing" component={Landing}/>
                     <Route path="/login" component={Login}/>

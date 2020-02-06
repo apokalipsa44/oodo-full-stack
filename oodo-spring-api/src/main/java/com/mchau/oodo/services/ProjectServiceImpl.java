@@ -65,7 +65,7 @@ public class ProjectServiceImpl {
             }
             return projectRepository.save(project);
         } catch (Exception ex) {
-            throw new ProjectIdException("Project ID: " + project.getProjectIdentifier().toUpperCase() + " already taken." + ex.getMessage());
+            throw new ProjectIdException("Project ID: " + project.getProjectIdentifier().toUpperCase() + " already taken.");
         }
     }
 

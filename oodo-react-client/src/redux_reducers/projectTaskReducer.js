@@ -1,8 +1,8 @@
 import {DELETE_PROJECT_TASK, GET_PROJECT_TASK, GET_BACKLOG} from "../redux_actions/types";
 
 const initialState = {
-    projectTasks: [],
-    projectTask: {}
+    project_tasks: [],
+    project_task: {}
 }
 
 export default function (state = initialState, action) {
@@ -10,17 +10,17 @@ export default function (state = initialState, action) {
         case GET_BACKLOG:
             return {
                 ...state,
-                projectTasks: action.payload
+                project_tasks: action.payload
             }
         case GET_PROJECT_TASK:
             return {
                 ...state,
-                projectTask: action.payload
+                project_task: action.payload
             }
         case DELETE_PROJECT_TASK:
             return {
                 ...state,
-                projectTask:action.payload
+                project_task:action.payload
             }
         default:
             return state;

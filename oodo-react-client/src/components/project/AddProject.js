@@ -47,6 +47,7 @@ class AddProject extends Component {
 
     render() {
         const {errors}=this.state
+        console.log(errors)
         return (
             <div className="project">
                 <div className="container">
