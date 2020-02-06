@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {deleteProject} from "../../redux_actions/projectActions"
+import icons from 'glyphicons'
+
 
 class ProjectItem extends Component {
     onClickDelete = (id) => {
@@ -28,7 +30,8 @@ class ProjectItem extends Component {
                             <ul className="list-group">
                                 <Link to={`/projectBoard/${project.projectIdentifier}`}>
                                     <li className="list-group-item board">
-                                        <i className="fa fa-flag-checkered pr-1"> Project Board </i>
+                                        {icons.pin} Project Board
+                                        {/*<i className="fa fa-flag-checkered pr-1">  </i>*/}
                                     </li>
                                 </Link>
                                 <Link to={`/updateProject/${project.projectIdentifier}`}>

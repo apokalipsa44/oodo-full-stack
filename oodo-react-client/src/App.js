@@ -3,7 +3,7 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/layout/Header";
 import Dashboard from "./components/Dashboard";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import AddProject from "./components/project/AddProject";
 import {Provider} from "react-redux";
 import store from "./store"
@@ -17,6 +17,8 @@ import setJwtToken from "./securityUtils/JwtTokenUtils"
 import jwtDecode from "jwt-decode"
 import {SET_CURRENT_USER} from "./redux_actions/types";
 import {logout} from "./redux_actions/securityActions";
+import SecuredRoute from "./securityUtils/SecuredRoute";
+
 
 const token = localStorage.jwtToken
 
@@ -44,11 +46,13 @@ function App() {
             <Router>
                 <div className="App">
                     <Header/>
-                    <Route path="/dashboard" component={Dashboard}/>
-                    <Route path="/addProject" component={AddProject}/>
-                    <Route path="/updateProject/:id" component={UpdateProject}/>
-                    <Route path="/projectBoard/:id" component={ProjectBoard}/>
-                    <Route path="/addProjectTask/:id" component={AddProjectTaskForm}/>
+                    <Switch>
+                    <SecuredRoute path="/dashboard" component={Dashboard}/>
+                    <SecuredRoute path="/addProject" component={AddProject}/>
+                    <SecuredRoute path="/updateProject/:id" component={UpdateProject}/>
+                    <SecuredRoute path="/projectBoard/:id" component={ProjectBoard}/>
+                    <SecuredRoute path="/addProjectTask/:id" component={AddProjectTaskForm}/>
+                    </Switch>
                     <Route path="/landing" component={Landing}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/register" component={Register}/>
