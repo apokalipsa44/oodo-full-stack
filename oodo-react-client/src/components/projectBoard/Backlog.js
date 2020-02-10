@@ -10,9 +10,11 @@ class Backlog extends Component {
     render() {
         const {project_tasks_prop} = this.props;
 
-        const tasks = project_tasks_prop.map((project_task, index) => (
-            <ProjectTask key={project_task.id} project_task={project_task} index={index}/>
-        ));
+        const tasks = project_tasks_prop.map((project_task, index) => {
+               return <ProjectTask key={project_task.id} project_task={project_task} index={index}/>
+        }
+
+        );
 
         let todoItems = [];
         let inProgressItems = [];

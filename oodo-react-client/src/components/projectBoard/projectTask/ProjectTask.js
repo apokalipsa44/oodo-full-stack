@@ -14,7 +14,6 @@ class ProjectTask extends Component {
 
     render() {
         const {project_task} = this.props;
-        console.log(project_task)
         let priorityString;
         let priorityClass;
 
@@ -34,7 +33,7 @@ class ProjectTask extends Component {
         }
 
         return (
-            <Draggable draggableId={String(project_task.id)} index={index}>
+            <Draggable draggableId={String(project_task.id)} index={this.props.index}>
                 {provided => (
                     <div  {...provided.draggableProps}
                           {...provided.dragHandleProps}

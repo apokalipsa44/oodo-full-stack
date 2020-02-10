@@ -24,7 +24,6 @@ class ProjectBoard extends Component {
     render() {
         const { id } = this.props.match.params;
         const { project_tasks } = this.props.backlog;
-        console.log(project_tasks)
         const { errors } = this.state;
 
         let BoardContent;
