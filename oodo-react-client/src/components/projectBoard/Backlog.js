@@ -4,16 +4,40 @@ import {DragDropContext, Droppable} from "react-beautiful-dnd";
 
 class Backlog extends Component {
     onDragEnd = result => {
+        const {destination, source, draggableId} = result
+        if (!destination) {
+            return
+        }
+        if (destination.droppableId === source.droppableId && destination.index === source.index) {
+            return;
+        }
 
+        // const column = this.state.columns[source.droppableId]
+        // const newTaskIds = Array.from(column.tasksIDs)
+        // newTaskIds.splice(source.index, 1)
+        // newTaskIds.splice(destination.index, 0, draggableId)
+        //
+        // const newColumn = {
+        //     ...column,
+        //     tasksIDs: newTaskIds
+        // }
+        //
+        // const newState = {
+        //     ...this.state,
+        //     columns: {
+        //         ...this.state.columns,
+        //         [newColumn.id]: newColumn
+        //     }
+        // }
+        //
+        // this.setState(newState)
     }
-
     render() {
         const {project_tasks_prop} = this.props;
 
         const tasks = project_tasks_prop.map((project_task, index) => {
-               return <ProjectTask key={project_task.id} project_task={project_task} index={index}/>
-        }
-
+                return <ProjectTask key={project_task.id} project_task={project_task} index={index}/>
+            }
         );
 
         let todoItems = [];
