@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import classnames from "classnames"
 import PropTypes from "prop-types"
 import {loginRequest} from "./../../redux_actions/securityActions"
+import oauthLogin from "../oauth/oauthLogin";
 
 class Login extends Component {
     state = {
@@ -85,7 +86,11 @@ class Login extends Component {
                                     )}
                                 </div>
                                 <input type="submit" className="btn btn-info btn-block mt-4"/>
+                                <button type="button" className="btn btn-info btn-block mt-4">login with google</button>
+
                             </form>
+
+
                         </div>
                     </div>
                 </div>
