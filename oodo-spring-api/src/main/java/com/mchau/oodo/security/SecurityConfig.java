@@ -3,6 +3,7 @@ package com.mchau.oodo.security;
 import com.mchau.oodo.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,9 +18,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-@SpringBootApplication
+
 @Configuration
 @EnableWebSecurity
+@EnableOAuth2Sso
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -68,9 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "**/*.js").permitAll()
                 .antMatchers("/api/users/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login().authorizationEndpoint().baseUri("/api/users/oauth2");
+                .anyRequest().authenticated();
+
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }

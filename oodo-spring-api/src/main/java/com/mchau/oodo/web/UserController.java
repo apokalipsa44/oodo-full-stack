@@ -14,13 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.security.Principal;
 
 import static com.mchau.oodo.security.JwtConstants.TOKEN_PREFIX;
 
@@ -75,8 +75,10 @@ public class UserController {
     }
 
 
-    @GetMapping("/oauth2")
-    public ResponseEntity<?> loginOAuth2(@AuthenticationPrincipal OAuth2User principal){
-
+    @RequestMapping("/oauth2")
+    @ResponseBody
+    public Principal loginOAuth2(Principal principal){
+//        System.out.println(principal.toString());
+return principal;
     }
 }
