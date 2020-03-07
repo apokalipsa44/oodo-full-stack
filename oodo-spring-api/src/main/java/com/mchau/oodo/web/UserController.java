@@ -34,6 +34,7 @@ public class UserController {
     private JwtTokenProvider tokenProvider;
     private AuthenticationManager authenticationManager;
 
+
     @Autowired
     public UserController(ValidationErrorMsgService errorMsgService, UserServiceImpl userService,
                           UserValidator userValidator, JwtTokenProvider tokenProvider,
@@ -57,28 +58,22 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequest loginRequest, BindingResult bindingResult){
+    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginRequest loginRequest, BindingResult bindingResult) {
         ResponseEntity<?> errorMap = errorMsgService.getErrorMessages(bindingResult);
         if (errorMap != null) return errorMap;
 
         Object principal;
         Object credentials;
-        Authentication authentication=authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
                         loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt=TOKEN_PREFIX+tokenProvider.generateToken(authentication);
+        String jwt = TOKEN_PREFIX + tokenProvider.generateToken(authentication);
 
 
         return ResponseEntity.ok(new JwtLoginSuccess(true, jwt));//todo <-- ResponseEntity.ok ??
     }
 
 
-    @RequestMapping("/oauth2")
-    @ResponseBody
-    public Principal loginOAuth2(Principal principal){
-//        System.out.println(principal.toString());
-return principal;
-    }
 }
