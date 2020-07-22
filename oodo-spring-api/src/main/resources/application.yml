@@ -1,0 +1,15 @@
+#security:
+#  oauth2:
+#    client:
+#      clientId: 244090549454-fkuttbh408n0t7vrsk0sl63c6n9k4gbb.apps.googleusercontent.com
+#      clientSecret: GkTZ4ZuVMRVJ5AvRtyDuDpnq
+#      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+#      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+#      clientAuthenticationScheme: form
+#      scope:
+#        - openid
+#        - email
+#    resource:
+#      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+#      preferTokenInfo: true
+#      et-uri: https://your-subdomain.oktapreview.com/oauth2/v1/keys
