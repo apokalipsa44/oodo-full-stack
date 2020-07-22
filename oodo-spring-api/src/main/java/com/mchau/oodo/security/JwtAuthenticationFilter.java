@@ -2,7 +2,7 @@ package com.mchau.oodo.security;
 
 import com.mchau.oodo.model.User;
 import com.mchau.oodo.services.UserDetailsService;
-import com.sun.org.apache.xml.internal.security.utils.JavaUtils;
+//import com.sun.org.apache.xml.internal.security.utils.JavaUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import sun.plugin.com.Utils;
+//import sun.plugin.com.Utils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
