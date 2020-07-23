@@ -4,12 +4,12 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 class Backlog extends Component {
   state = {
-    columns: [todoItems, inProgressItems, doneItems],
-    taskIds:
-
-  }
+    todoItems: {},
+    inProgressItems: {},
+    doneItems: {},
+  };
   onDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
+    const { destination, source, reason } = result;
     if (!destination) {
       return;
     }
@@ -19,33 +19,50 @@ class Backlog extends Component {
     ) {
       return;
     }
-
-    console.log('====================================');
+    console.log("====================================");
     console.log(this.state);
-    console.log('====================================');
-    debugger
-    const column = this.state.columns[source.droppableId];
-    const newTaskIds = Array.from(column.tasksIDs);
-    newTaskIds.splice(source.index, 1);
-    newTaskIds.splice(destination.index, 0, draggableId);
+    console.log("====================================");
+    let todoItems = [];
+    let inProgressItems = [];
+    let doneItems = [];
+    // console.log(this.props.project_tasks_prop)
+    let tasks = this.props.project_tasks_prop;
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].status === "TO_DO") {
+        todoItems.push(tasks[i]);
+        // todoItems.splice(source.index, 1);
+        // todoItems.splice(destination.index, 0, droppedTodo);
+      }
 
-    const newColumn = {
-      ...column,
-      tasksIDs: newTaskIds,
+      if (tasks[i].status === "IN_PROGRESS") {
+        inProgressItems.push(tasks[i]);
+        
+      }
+
+      if (tasks[i].status === "DONE") {
+        doneItems.push(tasks[i]);
+        doneItems.splice(source.index, 1);
+        doneItems.splice(destination.index, 0);
+      }
+    }
+    let droppedTodo = tasks[source.index];
+    if (droppedTodo.status == "TO_DO") {
+      todoItems.splice(source.index, 1);
+      todoItems.splice(destination.index, 0, droppedTodo);
+    }; 
+    if(droppedTodo.status == "IN_PROGRESS"){
+      inProgressItems.splice(source.index, 1);
+        inProgressItems.splice(destination.index, 0, droppedTodo);
     };
+    if(droppedTodo.status=="DONE"){}
 
-    const newState = {
-      ...this.state,
-      columns: {
-        ...this.state.columns,
-        [newColumn.id]: newColumn,
-      },
-    };
-
-
-
-    this.setState(newState);
+    this.setState({
+      todoItems: todoItems,
+      inProgressItems: inProgressItems,
+      doneItems: doneItems,
+    });
   };
+
   render() {
     const { project_tasks_prop } = this.props;
 
