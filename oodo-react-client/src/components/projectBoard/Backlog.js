@@ -4,10 +4,10 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 class Backlog extends Component {
   state = {
-    columns: [todoItems, inProgressItems, doneItems],
-    taskIds:
-
-  }
+    todoItems : [],
+    inProgressItems:[],
+    doneItems: []
+  };
   onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) {
@@ -23,24 +23,15 @@ class Backlog extends Component {
     console.log('====================================');
     console.log(this.state);
     console.log('====================================');
-    debugger
+    
     const column = this.state.columns[source.droppableId];
     const newTaskIds = Array.from(column.tasksIDs);
     newTaskIds.splice(source.index, 1);
     newTaskIds.splice(destination.index, 0, draggableId);
 
-    const newColumn = {
-      ...column,
-      tasksIDs: newTaskIds,
-    };
+    
 
-    const newState = {
-      ...this.state,
-      columns: {
-        ...this.state.columns,
-        [newColumn.id]: newColumn,
-      },
-    };
+    
 
 
 
