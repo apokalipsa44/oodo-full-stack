@@ -22,7 +22,6 @@ class Backlog extends Component {
     inProgressItems = [];
     doneItems = [];
 
-  
     for (let i = 0; i < tasks.project_tasks_prop.length; i++) {
       if (tasks.project_tasks_prop[i].status === "TO_DO") {
         todoItems.push(tasks.project_tasks_prop[i]);
@@ -44,26 +43,33 @@ class Backlog extends Component {
   }
 
   onDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
+    const { draggableId, destination, source } = result;
+
+    // avoid dropping on an a invalid drop area
     if (!destination) {
       return;
     }
+
+    // avoid dropping on the original place
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
       return;
     }
-
-    console.log("====================================");
+    console.log("state:");
     console.log(this.state);
-    console.log("====================================");
+    const newTasksOrder = [...this.state.todoItems];
 
-    // newTaskIds.splice(source.index, 1);
-    // newTaskIds.splice(destination.index, 0, draggableId);
+    newTasksOrder.splice(source.index, 1);
+    newTasksOrder.splice(destination.index, 0, draggableId);
+console.log(source.index);//tu skończyć object zmiast inta
+    this.setState({
+      todoItems: newTasksOrder,
+    });
   };
+
   render() {
-    const { project_tasks_prop } = this.props;
     let columns = this.state;
     console.log(this.state);
     let todoItems = columns.todoItems;
