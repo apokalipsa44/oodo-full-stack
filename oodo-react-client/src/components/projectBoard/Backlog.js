@@ -10,7 +10,7 @@ class Backlog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todoItems: ["ania", "basia"],
+      todoItems: [],
       inProgressItems: [],
       doneItems: [],
     };
@@ -22,19 +22,10 @@ class Backlog extends Component {
     inProgressItems = [];
     doneItems = [];
 
-    // tasks.project_tasks_prop.map((project_task, index) => {
-    //   return (
-    //     <ProjectTask
-    //       key={project_task.id}
-    //       project_task={project_task}
-    //       index={index}
-    //     />
-    //   );
-    // });
+  
     for (let i = 0; i < tasks.project_tasks_prop.length; i++) {
       if (tasks.project_tasks_prop[i].status === "TO_DO") {
         todoItems.push(tasks.project_tasks_prop[i]);
-        console.log(todoItems);
       }
 
       if (tasks.project_tasks_prop[i].status === "IN_PROGRESS") {
@@ -73,27 +64,42 @@ class Backlog extends Component {
   };
   render() {
     const { project_tasks_prop } = this.props;
-    let columns=this.state;
+    let columns = this.state;
     console.log(this.state);
     let todoItems = columns.todoItems;
     let inProgressItems = columns.inProgressItems;
-    let doneItems =columns.doneItems;
+    let doneItems = columns.doneItems;
     console.log(todoItems);
 
-    todoItems.map(item=>{
-      return ({
-       
-      });
+    const todoComponents = todoItems.map((project_task, index) => {
+      return (
+        <ProjectTask
+          key={project_task.id}
+          project_task={project_task}
+          index={index}
+        />
+      );
     });
-    // const tasks = project_tasks_prop.map((project_task, index) => {
-    //   return (
-    //     <ProjectTask
-    //       key={project_task.id}
-    //       project_task={project_task}
-    //       index={index}
-    //     />
-    //   );
-    // });
+
+    const inProgressComponents = inProgressItems.map((project_task, index) => {
+      return (
+        <ProjectTask
+          key={project_task.id}
+          project_task={project_task}
+          index={index}
+        />
+      );
+    });
+
+    const doneComponents = doneItems.map((project_task, index) => {
+      return (
+        <ProjectTask
+          key={project_task.id}
+          project_task={project_task}
+          index={index}
+        />
+      );
+    });
 
     return (
       <div className="container">
@@ -111,7 +117,7 @@ class Backlog extends Component {
                       <h3>TO DO</h3>
                     </div>
                   </div>
-                  {todoItems}
+                  {todoComponents}
                   {provided.placeholder}
                 </div>
               )}
@@ -128,7 +134,7 @@ class Backlog extends Component {
                       <h3>In Progress</h3>
                     </div>
                   </div>
-                  {inProgressItems}
+                  {inProgressComponents}
                   {provided.placeholder}
                 </div>
               )}
@@ -145,7 +151,7 @@ class Backlog extends Component {
                       <h3>Done</h3>
                     </div>
                   </div>
-                  {doneItems}
+                  {doneComponents}
                   {provided.placeholder}
                 </div>
               )}
