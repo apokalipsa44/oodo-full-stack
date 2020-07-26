@@ -2,25 +2,27 @@ import React, { Component } from "react";
 import ProjectTask from "./projectTask/ProjectTask";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-let todoItems = [];
-let inProgressItems = [];
-let doneItems = [];
-
 class Backlog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todoItems: [],
-      inProgressItems: [],
-      doneItems: [],
+      columns: this.loadTasksToState(),
+      rows: [
+        { name: "todo", items: [] },
+        { name: "inProcess", items: [] },
+        { name: "done", items: [] },
+      ],
+      tasks: props.project_tasks_prop,
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    let tasks = props;
-    todoItems = [];
-    inProgressItems = [];
-    doneItems = [];
+  loadTasksToState() {
+    // console.log('loadtasksToState');
+    // console.log(this.props)
+    let tasks = this.props;
+    let todoItems = [];
+    let inProgressItems = [];
+    let doneItems = [];
 
     for (let i = 0; i < tasks.project_tasks_prop.length; i++) {
       if (tasks.project_tasks_prop[i].status === "TO_DO") {
@@ -44,7 +46,6 @@ class Backlog extends Component {
 
   onDragEnd = (result) => {
     const { draggableId, destination, source } = result;
-
     // avoid dropping on an a invalid drop area
     if (!destination) {
       return;
@@ -57,26 +58,41 @@ class Backlog extends Component {
     ) {
       return;
     }
-    console.log("state:");
-    console.log(this.state);
-    const newTasksOrder = [...this.state.todoItems];
+    console.log("result", result);
 
+    let newTasksOrder = [];
+    newTasksOrder = this.state.columns.todoItems;
+    // console.log(this.state);
+    console.log("aaaa");
+    console.log(newTasksOrder);
     newTasksOrder.splice(source.index, 1);
-    newTasksOrder.splice(destination.index, 0, draggableId);
-console.log(source.index);//tu skończyć object zmiast inta
+    console.log(this.state.tasks);
+    let movedTask = this.state.tasks[draggableId - 1];
+    console.log("przesowany", movedTask);
+    newTasksOrder.splice(destination.index, 0, movedTask);
+    console.log(newTasksOrder);
     this.setState({
-      todoItems: newTasksOrder,
+      ...this.state,
+      todoItems: "newTasksOrder",
     });
+    console.log("state po dragend", this.state);
   };
 
+  componentDidUpdate() {
+    console.log("componentDidUpdate fired");
+    console.log("STATE", this.state);
+  }
+
   render() {
-    let columns = this.state;
-    console.log(this.state);
+    let columns = this.state.columns;
+    let rows = this.state.rows;
+    // console.log('z rendera',this.state);
     let todoItems = columns.todoItems;
+    // console.log(todoItems);
     let inProgressItems = columns.inProgressItems;
     let doneItems = columns.doneItems;
-    console.log(todoItems);
-
+    // console.log(todoItems);
+    const tasks = this.state.columns;
     const todoComponents = todoItems.map((project_task, index) => {
       return (
         <ProjectTask
@@ -109,7 +125,11 @@ console.log(source.index);//tu skończyć object zmiast inta
 
     return (
       <div className="container">
-        <DragDropContext onDragEnd={this.onDragEnd}>
+        <DragDropContext
+          onDragEnd={(result) => {
+            this.onDragEnd(result);
+          }}
+        >
           <div className="row">
             <Droppable droppableId="todo">
               {(provided) => (
