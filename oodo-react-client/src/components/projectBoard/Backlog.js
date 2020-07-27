@@ -60,22 +60,19 @@ class Backlog extends Component {
     }
     console.log("result", result);
 
+    //single column drop
     let newTasksOrder = [];
     newTasksOrder = this.state.columns.todoItems;
-    // console.log(this.state);
-    console.log("aaaa");
-    console.log(newTasksOrder);
     newTasksOrder.splice(source.index, 1);
-    console.log(this.state.tasks);
     let movedTask = this.state.tasks[draggableId - 1];
-    console.log("przesowany", movedTask);
     newTasksOrder.splice(destination.index, 0, movedTask);
-    console.log(newTasksOrder);
     this.setState({
       ...this.state,
-      todoItems: "newTasksOrder",
+      todoItems: newTasksOrder,
     });
-    console.log("state po dragend", this.state);
+
+    //multiple column drop
+    
   };
 
   componentDidUpdate() {
