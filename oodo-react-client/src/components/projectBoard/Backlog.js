@@ -3,70 +3,54 @@ import ProjectTask from "./projectTask/ProjectTask";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 class Backlog extends Component {
-  state = {
-    todoItems: {},
-    inProgressItems: {},
-    doneItems: {},
-  };
-  onDragEnd = (result) => {
-    const { destination, source, reason } = result;
+
     if (!destination) {
       return;
     }
+
+    // avoid dropping on the original place
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
       return;
     }
-    console.log("====================================");
-    console.log(this.state);
-    console.log("====================================");
-    let todoItems = [];
-    let inProgressItems = [];
-    let doneItems = [];
-    // console.log(this.props.project_tasks_prop)
-    let tasks = this.props.project_tasks_prop;
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].status === "TO_DO") {
-        todoItems.push(tasks[i]);
-        // todoItems.splice(source.index, 1);
-        // todoItems.splice(destination.index, 0, droppedTodo);
-      }
+<<<<
 
-      if (tasks[i].status === "IN_PROGRESS") {
-        inProgressItems.push(tasks[i]);
-        
-      }
+=======
+    console.log("result", result);
 
-      if (tasks[i].status === "DONE") {
-        doneItems.push(tasks[i]);
-        doneItems.splice(source.index, 1);
-        doneItems.splice(destination.index, 0);
-      }
-    }
-    let droppedTodo = tasks[source.index];
-    if (droppedTodo.status == "TO_DO") {
-      todoItems.splice(source.index, 1);
-      todoItems.splice(destination.index, 0, droppedTodo);
-    }; 
-    if(droppedTodo.status == "IN_PROGRESS"){
-      inProgressItems.splice(source.index, 1);
-        inProgressItems.splice(destination.index, 0, droppedTodo);
-    };
-    if(droppedTodo.status=="DONE"){}
-
+    //single column drop
+    let newTasksOrder = [];
+    newTasksOrder = this.state.columns.todoItems;
+    newTasksOrder.splice(source.index, 1);
+    let movedTask = this.state.tasks[draggableId - 1];
+    newTasksOrder.splice(destination.index, 0, movedTask);
     this.setState({
-      todoItems: todoItems,
-      inProgressItems: inProgressItems,
-      doneItems: doneItems,
+      ...this.state,
+      todoItems: newTasksOrder,
     });
+
+    //multiple column drop
+    
   };
 
-  render() {
-    const { project_tasks_prop } = this.props;
+  componentDidUpdate() {
+    console.log("componentDidUpdate fired");
+    console.log("STATE", this.state);
+  }
 
-    const tasks = project_tasks_prop.map((project_task, index) => {
+  render() {
+    let columns = this.state.columns;
+    let rows = this.state.rows;
+    // console.log('z rendera',this.state);
+    let todoItems = columns.todoItems;
+    // console.log(todoItems);
+    let inProgressItems = columns.inProgressItems;
+    let doneItems = columns.doneItems;
+    // console.log(todoItems);
+    const tasks = this.state.columns;
+    const todoComponents = todoItems.map((project_task, index) => {
       return (
         <ProjectTask
           key={project_task.id}
@@ -76,27 +60,33 @@ class Backlog extends Component {
       );
     });
 
-    let todoItems = [];
-    let inProgressItems = [];
-    let doneItems = [];
+    const inProgressComponents = inProgressItems.map((project_task, index) => {
+      return (
+        <ProjectTask
+          key={project_task.id}
+          project_task={project_task}
+          index={index}
+        />
+      );
+    });
 
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].props.project_task.status === "TO_DO") {
-        todoItems.push(tasks[i]);
-      }
-
-      if (tasks[i].props.project_task.status === "IN_PROGRESS") {
-        inProgressItems.push(tasks[i]);
-      }
-
-      if (tasks[i].props.project_task.status === "DONE") {
-        doneItems.push(tasks[i]);
-      }
-    }
+    const doneComponents = doneItems.map((project_task, index) => {
+      return (
+        <ProjectTask
+          key={project_task.id}
+          project_task={project_task}
+          index={index}
+        />
+      );
+    });
 
     return (
       <div className="container">
-        <DragDropContext onDragEnd={this.onDragEnd}>
+        <DragDropContext
+          onDragEnd={(result) => {
+            this.onDragEnd(result);
+          }}
+        >
           <div className="row">
             <Droppable droppableId="todo">
               {(provided) => (
@@ -110,7 +100,7 @@ class Backlog extends Component {
                       <h3>TO DO</h3>
                     </div>
                   </div>
-                  {todoItems}
+                  {todoComponents}
                   {provided.placeholder}
                 </div>
               )}
@@ -127,7 +117,7 @@ class Backlog extends Component {
                       <h3>In Progress</h3>
                     </div>
                   </div>
-                  {inProgressItems}
+                  {inProgressComponents}
                   {provided.placeholder}
                 </div>
               )}
@@ -144,7 +134,7 @@ class Backlog extends Component {
                       <h3>Done</h3>
                     </div>
                   </div>
-                  {doneItems}
+                  {doneComponents}
                   {provided.placeholder}
                 </div>
               )}
