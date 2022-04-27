@@ -3,50 +3,7 @@ import ProjectTask from "./projectTask/ProjectTask";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 class Backlog extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      columns: this.loadTasksToState(),
-      rows: [
-        { name: "todo", items: [] },
-        { name: "inProcess", items: [] },
-        { name: "done", items: [] },
-      ],
-      tasks: props.project_tasks_prop,
-    };
-  }
 
-  loadTasksToState() {
-    // console.log('loadtasksToState');
-    // console.log(this.props)
-    let tasks = this.props;
-    let todoItems = [];
-    let inProgressItems = [];
-    let doneItems = [];
-
-    for (let i = 0; i < tasks.project_tasks_prop.length; i++) {
-      if (tasks.project_tasks_prop[i].status === "TO_DO") {
-        todoItems.push(tasks.project_tasks_prop[i]);
-      }
-
-      if (tasks.project_tasks_prop[i].status === "IN_PROGRESS") {
-        inProgressItems.push(tasks.project_tasks_prop[i]);
-      }
-
-      if (tasks.project_tasks_prop[i].status === "DONE") {
-        doneItems.push(tasks.project_tasks_prop[i]);
-      }
-    }
-    return {
-      todoItems: todoItems,
-      inProgressItems: inProgressItems,
-      doneItems: doneItems,
-    };
-  }
-
-  onDragEnd = (result) => {
-    const { draggableId, destination, source } = result;
-    // avoid dropping on an a invalid drop area
     if (!destination) {
       return;
     }
@@ -58,6 +15,9 @@ class Backlog extends Component {
     ) {
       return;
     }
+<<<<
+
+=======
     console.log("result", result);
 
     //single column drop
